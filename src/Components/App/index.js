@@ -4,7 +4,8 @@ import SignUp from "../SignUp";
 import Habits from "../Habits";
 import Today from "../Today";
 import History from "../History";
-
+import '../../Styles/reset.css';
+import "../../Styles/style.css";
 
 export default function App() {
     return (
