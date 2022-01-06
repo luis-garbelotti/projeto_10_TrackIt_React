@@ -1,6 +1,9 @@
 
 import styled from "styled-components";
 import logo from "../../Images/logo.png";
+import Input from "../Input";
+import Button from "../Button";
+import { Link } from "react-router-dom";
 
 export default function Login() {
 
@@ -13,13 +16,14 @@ export default function Login() {
                 <FormLogin>
 
                     <form>
-                        <input type="email" placeholder="email" />
-                        <input type="password" placeholder="password" />
-                        <button > Entrar </button>
+                        <Input type="email" placeholder="email" />
+                        <Input type="password" placeholder="senha" />
+                        <Button type="submit" > Entrar </Button>
                     </form>
+
                 </FormLogin>
 
-                <span>Não tem uma conta? Cadastre-se!</span>
+                <StyledLink to="/cadastro">Não tem uma conta? Cadastre-se!</StyledLink>
 
 
             </Container>
@@ -45,18 +49,6 @@ const Container = styled.div`
         margin-bottom: 32px;
     } 
 
-    span {
-
-        margin-top: 25px;
-
-        font-size: 14px;
-        font-weight: 400;
-        text-align: center;
-
-        color: #52B6FF;
-        
-    }
-
 `
 
 const FormLogin = styled.div`
@@ -67,46 +59,16 @@ const FormLogin = styled.div`
     
     height: auto;
 
-    input {
+`
 
-        width: 100%;
-        height: 45px;
-        margin-bottom: 6px;
-        padding-left: 11px;
+const StyledLink = styled(Link)`
 
-        border: 1px solid #D4D4D4;
-        border-radius: 5px;
-        
-        ::placeholder {
+    margin-top: 25px;
 
-            font-size: 20px;
-            font-weight: 400;
-            line-height: 25px;
-            letter-spacing: 0em;
-            text-align: left;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
 
-            color: #DBDBDB;
-
-        }
-    }
-
-    button {
-
-        width: 100%;
-        height: 45px;
-
-        background-color: #52B6FF;
-
-        border-radius: 4.65px;
-
-        font-size: 21px;
-        font-weight: 400;
-        line-height: 26px;
-        letter-spacing: 0em;
-        text-align: center;
-
-        color: #fff;
-
-    }
+    color: #52B6FF;
 
 `
