@@ -10,6 +10,8 @@ const Input = styled.input`
 
         border: 1px solid #D4D4D4;
         border-radius: 5px;
+
+        background-color: #fff;
         
     ::placeholder {
 
@@ -20,6 +22,13 @@ const Input = styled.input`
             text-align: left;
 
             color: #DBDBDB;
+
+    }
+
+    :disabled {
+
+        background-color: #F2F2F2;
+        
     }
 
 `

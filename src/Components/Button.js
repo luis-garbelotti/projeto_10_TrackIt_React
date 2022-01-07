@@ -17,6 +17,16 @@ const Button = styled.button`
 
     color: #fff;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    :disabled {
+        
+        opacity: 0.7;
+        
+    }
+
 `
 
 export default Button;

@@ -3,9 +3,50 @@ import styled from "styled-components";
 import logo from "../../Images/logo.png";
 import Input from "../Input";
 import Button from "../Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
+import Loader from "react-loader-spinner";
 
-export default function Login() {
+export default function Login({ enabled, setEnabled, setUser, setToken }) {
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+
+
+    function handleLogin(e) {
+        e.preventDefault();
+
+        if (!email || !password) {
+
+            alert("Preencha os dados corretamente e tente novamente");
+
+        } else {
+
+            /* setEnabled(false); */
+
+            const promisse = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login', {
+                email,
+                password
+            });
+
+            promisse.then(response => {
+
+                navigate('/hoje');
+                setUser(response.data);
+                setToken(response.data.token);
+
+            });
+
+            promisse.catch(error => {
+
+                alert('Email ou senha inválido(s). Tente novamente.');
+                /* setEnabled(true); */
+
+            })
+        }
+    }
 
     return (
         <>
@@ -15,10 +56,24 @@ export default function Login() {
 
                 <FormLogin>
 
-                    <form>
-                        <Input type="email" placeholder="email" />
-                        <Input type="password" placeholder="senha" />
-                        <Button type="submit" > Entrar </Button>
+                    <form onSubmit={handleLogin}>
+                        <Input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="email"
+                            disabled={!enabled}
+                        />
+                        <Input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="senha"
+                            disabled={!enabled}
+                        />
+                        <Button type="submit" disabled={!enabled} >
+                            {enabled ? "Entrar" : <Loader type="ThreeDots" color="#FFF" height={18} width={55} />}
+                        </Button>
                     </form>
 
                 </FormLogin>
