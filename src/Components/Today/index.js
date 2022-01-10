@@ -7,14 +7,12 @@ import dayjs from 'dayjs';
 import axios from "axios";
 import Loader from "react-loader-spinner";
 import CheckBoxToday from "../CheckBoxToday";
-import updateLocale from 'dayjs/plugin/updateLocale';
 
 export default function Today() {
 
     const [done, setDone] = useState(false);
     const [checked, setChecked] = useState(false);
     const { token, percentDone, setPercentDone } = useContext(UserContext);
-    const [todayWeek, setTodayWeek] = useState('');
     const [date, setDate] = useState(dayjs().format('dddd, DD/MM'));
     const [todaysHabits, setTodaysHabits] = useState([]);
 
