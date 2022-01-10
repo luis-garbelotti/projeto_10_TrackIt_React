@@ -1,13 +1,19 @@
 import Topbar from "../Topbar";
 import Menu from "../Menu";
 import styled from "styled-components";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import vector from "../../Images/Vector.png";
+import UserContext from "../Context/UserContext";
+import dayjs from 'dayjs';
 
-export default function Today({ user, token }) {
+
+export default function Today() {
 
     const [done, setDone] = useState(null);
     const [checked, setChecked] = useState(false);
+    const { user, setUser } = useContext(UserContext);
+    const [todayWeek, setTodayWeek] = useState();
+    const [date, setDate] = useState(dayjs().format('DD/MM'));
 
     return (
 
@@ -15,7 +21,7 @@ export default function Today({ user, token }) {
             <Container>
                 <Topbar />
                 <TodayContent>
-                    <Day>Segunda, 17/05</Day>
+                    <Day>{todayWeek}, {date}</Day>
                     <Progress done={done} >{!done ? "Nenhum hábito concluído ainda" : "67% dos hábitos concluídos"}</Progress>
 
                     <HabitList>
@@ -32,11 +38,9 @@ export default function Today({ user, token }) {
                         </Habit>
 
                     </HabitList>
+                    <Menu />
                 </TodayContent>
 
-
-
-                <Menu />
             </Container>
 
         </>
@@ -46,9 +50,7 @@ export default function Today({ user, token }) {
 const Container = styled.div`
 
     width: 100%;
-    height: 667px;
 
-    background-color: #e5e5e5;
 
 `
 

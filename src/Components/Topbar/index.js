@@ -1,7 +1,11 @@
+import { useContext } from "react";
 import styled from "styled-components";
 import minilogo from "../../Images/TrackIt.png";
+import UserContext from "../Context/UserContext";
 
-export default function Topbar({ user }) {
+export default function Topbar() {
+
+    const { user } = useContext(UserContext);
 
     return (
 
@@ -9,7 +13,7 @@ export default function Topbar({ user }) {
             <Container>
 
                 <img src={minilogo} alt="TrackIt" />
-                <UserImage>
+                <UserImage user={user}>
                 </UserImage>
 
             </Container>
@@ -49,8 +53,8 @@ const UserImage = styled.div`
 
     background-color: lightgray;
 
-    background-image: url('https://i.pinimg.com/236x/8e/45/e5/8e45e5505659ba403203f9ff07942420.jpg');
+    background-image: ${props => `url(${props.user.image})`};
     background-size: 50px;
-    background-position: center;
+    background-position: center; 
 
 `

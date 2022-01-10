@@ -1,14 +1,18 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 function Menu() {
+
+    const navigate = useNavigate();
+
     return (
         <>
             <Container>
-                <span>Hábitos</span>
+                <span className="pointer" onClick={() => navigate('/habitos')}>Hábitos</span>
 
-                <TodayProgress>Hoje</TodayProgress>
+                <TodayProgress className="pointer" onClick={() => navigate('/hoje')}>Hoje</TodayProgress>
 
-                <span>Histórico</span>
+                <span className="pointer" onClick={() => navigate('/historico')}>Histórico</span>
 
 
             </Container>
@@ -25,7 +29,7 @@ const Container = styled.div`
 
     background-color: #fff;
 
-    position: absolute;
+    position: fixed;
     left: 0;
     bottom: 0;
 

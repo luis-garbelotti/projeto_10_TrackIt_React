@@ -7,23 +7,68 @@ import History from "../History";
 import '../../Styles/reset.css';
 import "../../Styles/style.css";
 import { useState } from "react";
+import UserContext from "../Context/UserContext";
 
 export default function App() {
 
     const [enabled, setEnabled] = useState(true);
-    const [user, setUser] = useState(null);
-    const [token, setToken] = useState('');
+    const [user, setUser] = useState([]);
+    const [token, setToken] = useState([]);
+
+    const [weekDays, setWeekDays] = useState([
+        {
+            id: 0,
+            name: "D",
+            selected: false
+        },
+        {
+            id: 1,
+            name: "S",
+            selected: false
+        },
+        {
+            id: 2,
+            name: "T",
+            selected: false
+        },
+        {
+            id: 3,
+            name: "Q",
+            selected: false
+        },
+        {
+            id: 4,
+            name: "Q",
+            selected: false
+        },
+        {
+            id: 5,
+            name: "S",
+            selected: false
+        },
+        {
+            id: 6,
+            name: "S",
+            selected: false
+        }
+    ]);
+
 
     return (
         <>
             <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<Login enabled={enabled} setEnabled={setEnabled} setUser={setUser} setToken={setToken} />} ></Route>
-                    <Route path="/cadastro" element={<SignUp enabled={enabled} setEnabled={setEnabled} />} ></Route>
-                    <Route path="/habitos" element={<Habits />} ></Route>
-                    <Route path="/hoje" element={<Today user={user} token={token} />} ></Route>
-                    <Route path="/historico" element={<History />} ></Route>
-                </Routes>
+
+                <UserContext.Provider value={{ user, setUser, token, setToken, weekDays, setWeekDays }}>
+
+                    <Routes>
+                        <Route path="/" element={<Login enabled={enabled} setEnabled={setEnabled} />} ></Route>
+                        <Route path="/cadastro" element={<SignUp enabled={enabled} setEnabled={setEnabled} />} ></Route>
+                        <Route path="/habitos" element={<Habits />} ></Route>
+                        <Route path="/hoje" element={<Today />} ></Route>
+                        <Route path="/historico" element={<History />} ></Route>
+                    </Routes>
+
+                </UserContext.Provider>
 
             </BrowserRouter>
         </>

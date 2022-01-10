@@ -117,12 +117,14 @@ export default function SignUp({ enabled, setEnabled }) {
 const Container = styled.div`
 
     width: 100%;
-    height: auto;
+    height: 667px;
     padding: 68px 36px 0 36px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    background-color: #fff;
     
     img {
 

@@ -4,15 +4,17 @@ import logo from "../../Images/logo.png";
 import Input from "../Input";
 import Button from "../Button";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import Loader from "react-loader-spinner";
+import UserContext from "../Context/UserContext";
 
-export default function Login({ enabled, setEnabled, setUser, setToken }) {
+export default function Login({ enabled, setEnabled }) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const { setUser, setToken } = useContext(UserContext);
 
 
     function handleLogin(e) {
@@ -24,7 +26,7 @@ export default function Login({ enabled, setEnabled, setUser, setToken }) {
 
         } else {
 
-            /* setEnabled(false); */
+            setEnabled(false);
 
             const promisse = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login', {
                 email,
@@ -34,6 +36,7 @@ export default function Login({ enabled, setEnabled, setUser, setToken }) {
             promisse.then(response => {
 
                 navigate('/hoje');
+                setEnabled(true);
                 setUser(response.data);
                 setToken(response.data.token);
 
@@ -42,7 +45,10 @@ export default function Login({ enabled, setEnabled, setUser, setToken }) {
             promisse.catch(error => {
 
                 alert('Email ou senha inválido(s). Tente novamente.');
-                /* setEnabled(true); */
+                setEnabled(true);
+                setEmail('');
+                setPassword('');
+                console.log(error);
 
             })
         }
@@ -80,7 +86,6 @@ export default function Login({ enabled, setEnabled, setUser, setToken }) {
 
                 <StyledLink to="/cadastro">Não tem uma conta? Cadastre-se!</StyledLink>
 
-
             </Container>
         </>
     )
@@ -90,9 +95,11 @@ export default function Login({ enabled, setEnabled, setUser, setToken }) {
 const Container = styled.div`
 
     width: 100%;
-    height: auto;
+    height: 667px;
     padding: 68px 36px 0 36px;
 
+    background-color: #fff;
+    
     display: flex;
     flex-direction: column;
     align-items: center;
