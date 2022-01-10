@@ -8,6 +8,8 @@ import '../../Styles/reset.css';
 import "../../Styles/style.css";
 import { useState } from "react";
 import UserContext from "../Context/UserContext";
+import updateLocale from 'dayjs/plugin/updateLocale';
+import dayjs from "dayjs";
 
 export default function App() {
 
@@ -22,6 +24,14 @@ export default function App() {
         setToken(token);
         localStorage.setItem("token", token);
     }
+
+    dayjs.extend(updateLocale)
+
+    dayjs.updateLocale('en', {
+        weekdays: [
+            "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"
+        ]
+    });
 
     const [weekDays, setWeekDays] = useState([
         {

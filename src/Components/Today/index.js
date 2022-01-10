@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import axios from "axios";
 import Loader from "react-loader-spinner";
 import CheckBoxToday from "../CheckBoxToday";
+import updateLocale from 'dayjs/plugin/updateLocale';
 
 export default function Today() {
 
@@ -14,34 +15,10 @@ export default function Today() {
     const [checked, setChecked] = useState(false);
     const { token, percentDone, setPercentDone } = useContext(UserContext);
     const [todayWeek, setTodayWeek] = useState('');
-    const [date, setDate] = useState(dayjs().format('DD/MM'));
+    const [date, setDate] = useState(dayjs().format('dddd, DD/MM'));
     const [todaysHabits, setTodaysHabits] = useState([]);
 
     let counter = 0;
-    let nameDay = '';
-    let numberDay = dayjs().get('day');
-
-    if (numberDay === 0) {
-        nameDay = 'Domingo';
-    }
-    if (numberDay === 1) {
-        nameDay = 'Segunda';
-    }
-    if (numberDay === 2) {
-        nameDay = 'Terça';
-    }
-    if (numberDay === 3) {
-        nameDay = 'Quarta';
-    }
-    if (numberDay === 4) {
-        nameDay = 'Quinta';
-    }
-    if (numberDay === 5) {
-        nameDay = 'Sexta';
-    }
-    if (numberDay === 6) {
-        nameDay = 'Sábado';
-    }
 
     useEffect(() => {
         const promisse = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today',
@@ -57,7 +34,6 @@ export default function Today() {
 
                     counter++;
                     setDone(true);
-                    setTodayWeek(nameDay);
 
                 }
                 if ((counter / response.data.length * 100) === 0) {
@@ -84,16 +60,12 @@ export default function Today() {
         return <Loader type="ThreeDots" color="#52B6FF" height={50} width={120} />
     }
 
-    if (nameDay === '') {
-        return <Loader type="ThreeDots" color="#52B6FF" height={50} width={120} />
-    }
-
     return (
         <>
             <Container>
                 <Topbar />
                 <TodayContent>
-                    <Day>{todayWeek}, {date}</Day>
+                    <Day>{date}</Day>
                     <Progress done={done} >{!done ? "Nenhum hábito concluído ainda" : `${percentDone}% dos hábitos concluídos`}</Progress>
 
                     <HabitList>
