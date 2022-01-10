@@ -1,7 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-
 export default function DayButton({ days }) {
 
     const [selectedButton, setSelectedButton] = useState(false);

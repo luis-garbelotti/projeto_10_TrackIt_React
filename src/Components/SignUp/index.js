@@ -111,7 +111,6 @@ export default function SignUp({ enabled, setEnabled }) {
             </Container>
         </>
     )
-
 }
 
 const Container = styled.div`

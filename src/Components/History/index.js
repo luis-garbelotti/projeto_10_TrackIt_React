@@ -2,7 +2,6 @@ import styled from "styled-components"
 import Menu from "../Menu"
 import Topbar from "../Topbar"
 
-
 export default function History() {
     return (
         <>

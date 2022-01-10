@@ -20,8 +20,6 @@ export default function Habits() {
     const [update, setUpdate] = useState(false);
     const habitDays = [];
 
-
-
     useEffect(() => {
 
         const habitPromisse = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits',
@@ -142,7 +140,6 @@ export default function Habits() {
             promisse.catch((error) => alert(error.response.data));
 
         }
-
     }
 
     function deleteHabit(eachHabit) {
@@ -173,15 +170,17 @@ export default function Habits() {
             <Container>
                 <Topbar />
                 <Content>
+
                     <Navbar >
                         <h1>Meus Hábitos</h1>
                         <AddHabit onClick={() => hidden === 'hidden' ? setHidden('') : setHidden('hidden')}>+</AddHabit>
                     </Navbar>
 
                     <HabitsList>
-                        <CreateHabit className={`${hidden}`}>
-                            <form onSubmit={handleAddHabit}>
 
+                        <CreateHabit className={`${hidden}`}>
+
+                            <form onSubmit={handleAddHabit}>
                                 <input disabled={disabled} type='text' value={habitName} onChange={(e) => setHabitName(e.target.value)} placeholder="nome do hábito"></input>
 
                                 <DaySelect>
@@ -193,30 +192,28 @@ export default function Habits() {
                                 <div className="buttons">
 
                                     <CancelButton disabled={disabled} type='button' onClick={cancel}> Cancelar </CancelButton>
-
                                     <SaveButton disabled={disabled}>
                                         {!disabled ? "Salvar" : <Loader type="ThreeDots" color="#FFF" height={10} width={38} />}
                                     </SaveButton>
-                                </div>
 
+                                </div>
                             </form>
+
                         </CreateHabit>
 
                         {allHabits.map((eachHabit) =>
                             <EachHabit key={eachHabit.id}>
-
                                 <span> {eachHabit.name} </span>
                                 <img src={trash} alt='delete' onClick={() => deleteHabit(eachHabit)} />
 
                                 <div className="days">
-
                                     {weekDays.map((days) =>
                                         <HabitDays key={days.id} days={days} daysToDo={eachHabit.days} ></HabitDays>
                                     )}
-
                                 </div>
                             </EachHabit>
                         )}
+
                     </HabitsList>
 
                     <span className={`${noHabbit}`} >Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</span>

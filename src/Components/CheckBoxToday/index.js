@@ -8,7 +8,6 @@ export default function CheckBoxToday({ habit, setChecked, checked }) {
 
     const { token } = useContext(UserContext);
 
-
     function checkDone() {
 
         if (!habit.done) {
@@ -34,8 +33,6 @@ export default function CheckBoxToday({ habit, setChecked, checked }) {
             promisseUnCheck.catch((error) => console.log(error.response.data));
 
         }
-
-
 
     }
 

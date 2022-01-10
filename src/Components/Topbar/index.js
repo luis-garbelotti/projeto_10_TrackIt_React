@@ -8,17 +8,16 @@ export default function Topbar() {
     const { user } = useContext(UserContext);
 
     return (
-
         <>
             <Container>
 
                 <img src={minilogo} alt="TrackIt" />
+
                 <UserImage user={user}>
                 </UserImage>
 
             </Container>
         </>
-
     )
 }
 
@@ -40,6 +39,56 @@ const Container = styled.div`
 
         width: 97px;
 
+    }
+
+    .user{
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        .menu {
+            width: 30px;
+            height: auto;
+            margin-right: -5px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+
+            position: absolute;
+            top: 20px;
+            left: -30px;
+        }
+    }
+
+    ion-icon{
+        color: #fff;
+    }
+
+    .logout{
+        width: 40px;
+        height: 30px;
+        margin-top: 5px;
+
+        border-radius: 3px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        background-color:#fff;
+        color: red;
+
+        box-shadow: 0 0 4px rgba(0,0,0,0.7);
+
+        z-index:1;
+
+        font-size: 14px
+    }
+
+    .hidden{
+        display: none;
     }
 
 `

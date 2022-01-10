@@ -8,7 +8,6 @@ import axios from "axios";
 import Loader from "react-loader-spinner";
 import CheckBoxToday from "../CheckBoxToday";
 
-
 export default function Today() {
 
     const [done, setDone] = useState(false);
@@ -90,7 +89,6 @@ export default function Today() {
     }
 
     return (
-
         <>
             <Container>
                 <Topbar />
@@ -112,13 +110,11 @@ export default function Today() {
                                 </CheckBoxToday>
                             </Habit>
                         )}
-
                     </HabitList>
+
                     <Menu />
                 </TodayContent>
-
             </Container>
-
         </>
     )
 }

@@ -8,14 +8,21 @@ import { useContext, useState } from "react";
 import axios from "axios";
 import Loader from "react-loader-spinner";
 import UserContext from "../Context/UserContext";
+import { useEffect } from "react/cjs/react.development";
 
 export default function Login({ enabled, setEnabled }) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-    const { setUser, setToken } = useContext(UserContext);
+    const { setUser, setToken, setAndPersistToken, tokenOnLocalStorage } = useContext(UserContext);
 
+    useEffect(() => {
+        if (tokenOnLocalStorage !== '') {
+            navigate('/hoje');
+            setToken(tokenOnLocalStorage);
+        }
+    }, []);
 
     function handleLogin(e) {
         e.preventDefault();
@@ -35,6 +42,7 @@ export default function Login({ enabled, setEnabled }) {
 
             promisse.then(response => {
 
+                setAndPersistToken(response.data.token);
                 setEnabled(true);
                 setUser(response.data);
                 setToken(response.data.token);
