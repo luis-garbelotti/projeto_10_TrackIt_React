@@ -2,18 +2,92 @@ import Topbar from "../Topbar";
 import Menu from "../Menu";
 import styled from "styled-components";
 import { useContext, useEffect, useState } from "react";
-import vector from "../../Images/Vector.png";
 import UserContext from "../Context/UserContext";
 import dayjs from 'dayjs';
+import axios from "axios";
+import Loader from "react-loader-spinner";
+import CheckBoxToday from "../CheckBoxToday";
 
 
 export default function Today() {
 
-    const [done, setDone] = useState(null);
+    const [done, setDone] = useState(false);
     const [checked, setChecked] = useState(false);
-    const { user, setUser } = useContext(UserContext);
-    const [todayWeek, setTodayWeek] = useState();
+    const { token, percentDone, setPercentDone } = useContext(UserContext);
+    const [todayWeek, setTodayWeek] = useState('');
     const [date, setDate] = useState(dayjs().format('DD/MM'));
+    const [todaysHabits, setTodaysHabits] = useState([]);
+
+    let counter = 0;
+    let nameDay = '';
+    let numberDay = dayjs().get('day');
+
+    if (numberDay === 0) {
+        nameDay = 'Domingo';
+    }
+    if (numberDay === 1) {
+        nameDay = 'Segunda';
+    }
+    if (numberDay === 2) {
+        nameDay = 'Terça';
+    }
+    if (numberDay === 3) {
+        nameDay = 'Quarta';
+    }
+    if (numberDay === 4) {
+        nameDay = 'Quinta';
+    }
+    if (numberDay === 5) {
+        nameDay = 'Sexta';
+    }
+    if (numberDay === 6) {
+        nameDay = 'Sábado';
+    }
+
+    useEffect(() => {
+        const promisse = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today',
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+        promisse.then((response) => {
+
+            for (let i = 0; i < response.data.length; i++) {
+                if (response.data[i].done === true) {
+
+                    counter++;
+                    setDone(true);
+                    setTodayWeek(nameDay);
+
+                }
+                if ((counter / response.data.length * 100) === 0) {
+
+                    setDone(false);
+                    setPercentDone(0);
+
+                } else {
+
+                    setPercentDone((counter / response.data.length * 100).toFixed(1));
+
+                }
+            }
+
+            setTodaysHabits(response.data)
+
+        });
+
+        promisse.catch(error => console.log(error.response.data));
+
+    }, [checked]);
+
+    if (!todaysHabits) {
+        return <Loader type="ThreeDots" color="#52B6FF" height={50} width={120} />
+    }
+
+    if (nameDay === '') {
+        return <Loader type="ThreeDots" color="#52B6FF" height={50} width={120} />
+    }
 
     return (
 
@@ -22,20 +96,22 @@ export default function Today() {
                 <Topbar />
                 <TodayContent>
                     <Day>{todayWeek}, {date}</Day>
-                    <Progress done={done} >{!done ? "Nenhum hábito concluído ainda" : "67% dos hábitos concluídos"}</Progress>
+                    <Progress done={done} >{!done ? "Nenhum hábito concluído ainda" : `${percentDone}% dos hábitos concluídos`}</Progress>
 
                     <HabitList>
-                        <Habit>
-                            <div className="text">
-                                <Title>Ler 1 capitulo de livro</Title>
-                                <p>Sequência atual: 5 dias</p>
-                                <p>Seu recorde: 5 dias</p>
-                            </div>
+                        {todaysHabits.map((habit) =>
+                            <Habit key={habit.id} isDone={habit.done} habit={habit}>
+                                <div className="text">
+                                    <Title>{habit.name}</Title>
+                                    <div className="sequence"></div>
+                                    <p>Sequência atual: <strong >{habit.currentSequence} dias </strong></p>
+                                    <p>Seu recorde: <strong className="highest">{habit.highestSequence} dias </strong></p>
+                                </div>
 
-                            <Checkbox type="checkbox" checked={checked} onClick={() => !checked ? setChecked(true) : setChecked(false)} >
-                                <img src={vector} alt="vector" />
-                            </Checkbox>
-                        </Habit>
+                                <CheckBoxToday setDone={setDone} setPercentDone={setPercentDone} counter={counter} todaysHabits={todaysHabits} habit={habit} checked={checked} setChecked={setChecked} >
+                                </CheckBoxToday>
+                            </Habit>
+                        )}
 
                     </HabitList>
                     <Menu />
@@ -50,6 +126,7 @@ export default function Today() {
 const Container = styled.div`
 
     width: 100%;
+    padding-bottom: 50px;
 
 
 `
@@ -98,8 +175,9 @@ const HabitList = styled.div`
 const Habit = styled.div`
 
     width: 340px;
-    height: 94px;
+    height: auto;
     padding: 13px 13px 13px 15px;
+    margin-bottom: 10px;
 
     border-radius: 5px;
 
@@ -109,6 +187,10 @@ const Habit = styled.div`
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+
+    .sequence{
+        margin-bottom: 17px;
+    }
 
     p {
 
@@ -121,20 +203,17 @@ const Habit = styled.div`
 
     }
 
-`
+    strong{
+        color: ${({ isDone }) => !isDone ? '#666666' : '#8FC549'}
+    }
 
-const Checkbox = styled.div`
-
-    width: 69px;
-    background-color: ${(props) => !props.checked ? "#ebebeb" : "#8FC549"};
-
-    border-radius: 5px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    .highest{
+        color: ${({ habit, isDone }) => isDone ? habit.currentSequence >= habit.highestSequence ? '#8FC549' : '#666666' : '#666666'}
+    }
 
 `
+
+
 
 const Title = styled.span`
 

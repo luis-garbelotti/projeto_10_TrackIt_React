@@ -139,7 +139,7 @@ export default function Habits() {
 
             });
 
-            promisse.catch((error) => console.log(error));
+            promisse.catch((error) => alert(error.response.data));
 
         }
 

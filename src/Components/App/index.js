@@ -14,6 +14,7 @@ export default function App() {
     const [enabled, setEnabled] = useState(true);
     const [user, setUser] = useState([]);
     const [token, setToken] = useState([]);
+    const [percentDone, setPercentDone] = useState(0);
 
     const [weekDays, setWeekDays] = useState([
         {
@@ -58,7 +59,7 @@ export default function App() {
         <>
             <BrowserRouter>
 
-                <UserContext.Provider value={{ user, setUser, token, setToken, weekDays, setWeekDays }}>
+                <UserContext.Provider value={{ user, setUser, token, setToken, weekDays, setWeekDays, percentDone, setPercentDone }}>
 
                     <Routes>
                         <Route path="/" element={<Login enabled={enabled} setEnabled={setEnabled} />} ></Route>

@@ -1,16 +1,31 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import UserContext from "../Context/UserContext";
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 function Menu() {
 
     const navigate = useNavigate();
+    const { percentDone } = useContext(UserContext);
 
     return (
         <>
             <Container>
                 <span className="pointer" onClick={() => navigate('/habitos')}>Hábitos</span>
 
-                <TodayProgress className="pointer" onClick={() => navigate('/hoje')}>Hoje</TodayProgress>
+                <TodayProgress className="pointer" onClick={() => navigate('/hoje')}>
+                    <div>
+                        <CircularProgressbar value={percentDone} text={`Hoje`}
+                            styles={buildStyles({
+                                textColor: '#fff',
+                                textSize: '25px',
+                                trailColor: '#52b6ff',
+                                pathColor: '#fff',
+                            })} />
+                    </div>
+                </TodayProgress>
 
                 <span className="pointer" onClick={() => navigate('/historico')}>Histórico</span>
 
@@ -70,6 +85,8 @@ const TodayProgress = styled.div`
     justify-content: center;
     align-items: center;
 
-    color: #fff;
+    div {
+        width: 80%;
+    }
 
 `

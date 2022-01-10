@@ -35,10 +35,10 @@ export default function Login({ enabled, setEnabled }) {
 
             promisse.then(response => {
 
-                navigate('/hoje');
                 setEnabled(true);
                 setUser(response.data);
                 setToken(response.data.token);
+                navigate('/hoje');
 
             });
 
