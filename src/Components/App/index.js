@@ -13,17 +13,10 @@ import dayjs from "dayjs";
 
 export default function App() {
 
-    const tokenOnLocalStorage = localStorage.getItem("token");
-
     const [enabled, setEnabled] = useState(true);
     const [user, setUser] = useState([]);
-    const [token, setToken] = useState(tokenOnLocalStorage);
+    const [token, setToken] = useState([]);
     const [percentDone, setPercentDone] = useState(0);
-
-    function setAndPersistToken(token) {
-        setToken(token);
-        localStorage.setItem("token", token);
-    }
 
     dayjs.extend(updateLocale)
 
@@ -77,7 +70,7 @@ export default function App() {
 
                 <UserContext.Provider value={{
                     user, setUser, token, setToken, weekDays, setWeekDays,
-                    percentDone, setPercentDone, setAndPersistToken, tokenOnLocalStorage
+                    percentDone, setPercentDone
                 }}>
 
                     <Routes>
